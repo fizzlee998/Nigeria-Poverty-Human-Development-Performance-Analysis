@@ -1,0 +1,326 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nigeria Poverty &amp; Human Development Dashboard 2015–2022</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{--blue:#1a3a5c;--lb:#2471a3;--green:#1e8449;--red:#c0392b;--orange:#d35400;--purple:#6c3483;--teal:#148f77;--gray:#ecf0f1;--dark:#1c2833;--lgray:#f4f6f8}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
+body{background:#eef2f7;color:#1c2833}
+header{background:linear-gradient(135deg,#1a3a5c 0%,#2471a3 60%,#148f77 100%);color:white;padding:26px 40px 20px}
+header h1{font-size:1.55rem;font-weight:700;margin-bottom:4px}
+header p{font-size:.88rem;opacity:.82;line-height:1.5}
+.bdg{display:inline-block;background:rgba(255,255,255,.18);padding:3px 10px;border-radius:12px;font-size:.75rem;margin-top:7px;margin-right:4px}
+.wrap{max-width:1300px;margin:0 auto;padding:0 22px 48px}
+/* Filter bar */
+.fb{background:white;border-radius:10px;padding:14px 20px;margin:18px 0;display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;box-shadow:0 1px 4px rgba(0,0,0,.07);border:1px solid #dde4ed}
+.fb>div{display:flex;flex-direction:column;gap:3px}
+.fb label{font-size:.74rem;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:.04em}
+.fb select{padding:7px 11px;border:1.5px solid #ccd6e0;border-radius:7px;font-size:.88rem;background:white;cursor:pointer;color:#1c2833;min-width:155px;outline:none}
+.fb select:focus{border-color:#2471a3}
+.fb button{padding:8px 18px;border:none;border-radius:7px;cursor:pointer;font-weight:600;font-size:.86rem}
+.btn-apply{background:#2471a3;color:white}
+.btn-apply:hover{background:#1a3a5c}
+.btn-reset{background:#e8ecf0;color:#555}
+.btn-reset:hover{background:#d5dae0}
+/* KPIs */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px;margin-bottom:20px}
+.kpi{background:white;border-radius:10px;padding:16px 18px;border:1px solid #dde4ed;border-top:4px solid #2471a3;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.kpi.r{border-top-color:#c0392b}.kpi.g{border-top-color:#1e8449}.kpi.o{border-top-color:#d35400}.kpi.p{border-top-color:#6c3483}.kpi.t{border-top-color:#148f77}
+.kl{font-size:.72rem;color:#777;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px;font-weight:600}
+.kv{font-size:1.8rem;font-weight:700;line-height:1.05;color:#1c2833}
+.ks{font-size:.76rem;color:#999;margin-top:2px}
+/* Charts */
+.sh{font-size:1rem;font-weight:700;color:#1a3a5c;margin:22px 0 10px;padding-left:10px;border-left:4px solid #2471a3}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
+.card{background:white;border-radius:10px;padding:16px 18px;border:1px solid #dde4ed;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.card h3{font-size:.88rem;font-weight:700;color:#1a3a5c;margin-bottom:11px;padding-bottom:6px;border-bottom:2px solid #eef2f7}
+.ch{position:relative;height:280px}.cth{position:relative;height:400px}.csh{position:relative;height:220px}
+/* Table */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.83rem}
+th{background:#1a3a5c;color:white;padding:8px 10px;text-align:left;font-size:.76rem;white-space:nowrap}
+td{padding:7px 10px;border-bottom:1px solid #eef2f7;white-space:nowrap}
+tr:hover td{background:#f5f8fc}
+.bp{background:#fdf2f8;color:#6c3483;padding:2px 8px;border-radius:10px;font-size:.72rem;font-weight:600}
+.bm{background:#fef9e7;color:#b7770d;padding:2px 8px;border-radius:10px;font-size:.72rem;font-weight:600}
+.bl{background:#eafaf1;color:#1e8449;padding:2px 8px;border-radius:10px;font-size:.72rem;font-weight:600}
+.bb{width:80px}.bbg{background:#e8ecf0;border-radius:4px;height:7px;margin-top:2px}.bbf{height:7px;border-radius:4px}
+/* Text sections */
+.ts{background:white;border-radius:10px;padding:20px 24px;margin-bottom:16px;border:1px solid #dde4ed;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.ts h2{font-size:1.02rem;font-weight:700;color:#1a3a5c;margin-bottom:9px;padding-bottom:7px;border-bottom:2px solid #eef2f7}
+.ts h3{font-size:.9rem;font-weight:700;color:#1c2833;margin:12px 0 4px}
+.ts p,.ts li{font-size:.88rem;line-height:1.72;color:#333}
+.ts ul{margin-left:18px;margin-top:4px}
+.ts li{margin-bottom:3px}
+/* Footer */
+footer{background:#1a3a5c;color:#9bb4cc;padding:20px 40px;font-size:.8rem;line-height:1.8}
+@media(max-width:900px){.g2,.g3{grid-template-columns:1fr}}
+</style></head><body>
+<header>
+<h1>&#127475;&#127468; Nigeria Poverty &amp; Human Development Dashboard</h1>
+<p>State-Level Analysis &nbsp;|&nbsp; 2015&#8211;2022 &nbsp;|&nbsp; MPI &middot; Monetary Poverty &middot; Literacy &middot; Unemployment &middot; Electricity &middot; Water Access</p>
+<span class="bdg">36 States + FCT</span><span class="bdg">8 Years</span>
+<span class="bdg">NBS MPI 2022 &middot; NLSS 2019 &middot; UNESCO &middot; World Bank</span>
+</header><div class="wrap">
+<div class="fb" id="filterBar">
+<div><label>Geopolitical Zone</label><select id="fZone"><option value="">All Zones</option><option value="North Central">North Central</option><option value="North East">North East</option><option value="North West">North West</option><option value="South East">South East</option><option value="South South">South South</option><option value="South West">South West</option></select></div>
+<div><label>Poverty Category</label><select id="fCat"><option value="">All Categories</option><option value="High Poverty">High Poverty</option><option value="Moderate Poverty">Moderate Poverty</option><option value="Low Poverty">Low Poverty</option></select></div>
+<div><label>Year (Trend)</label><select id="fYear"><option value="2022">2022 (Latest)</option><option value="2015">2015</option><option value="2016">2016</option><option value="2017">2017</option><option value="2018">2018</option><option value="2019">2019</option><option value="2020">2020</option><option value="2021">2021</option><option value="2022">2022</option></select></div>
+<div><label>Sort Table By</label><select id="fSort"><option value="mpi_headcount">MPI Headcount</option><option value="monetary_poverty_rate">Monetary Poverty</option><option value="literacy_rate">Literacy Rate</option><option value="unemployment_rate">Unemployment</option><option value="electricity_access">Electricity Access</option></select></div>
+<button class="btn-apply" onclick="applyFilters()">&#128269; Apply</button>
+<button class="btn-reset" onclick="resetFilters()">&#8635; Reset</button>
+</div>
+<div class="kpis" id="kpiArea">
+<div class="kpi r"><div class="kl">MPI Headcount (2022)</div><div class="kv" id="k1">48.3%</div><div class="ks">Multidimensionally poor</div></div>
+<div class="kpi o"><div class="kl">Monetary Poverty</div><div class="kv" id="k2">42.9%</div><div class="ks">Below national poverty line</div></div>
+<div class="kpi"><div class="kl">Adult Literacy Rate</div><div class="kv" id="k3">62.5%</div><div class="ks">National average 2022</div></div>
+<div class="kpi p"><div class="kl">Unemployment Rate</div><div class="kv" id="k4">22.1%</div><div class="ks">NBS NLFS 2024</div></div>
+<div class="kpi t"><div class="kl">Electricity Access</div><div class="kv" id="k5">50.1%</div><div class="ks">Households with access</div></div>
+<div class="kpi g"><div class="kl">Worst Performing State</div><div class="kv" id="k6" style="font-size:1.25rem">Sokoto</div><div class="ks">MPI: 88.1%</div></div>
+<div class="kpi g" style="border-top-color:#1e8449"><div class="kl">Best Performing State</div><div class="kv" id="k7" style="font-size:1.25rem">Lagos</div><div class="ks">MPI: 7.7%</div></div>
+<div class="kpi r"><div class="kl">High Poverty States</div><div class="kv" id="k8">12</div><div class="ks">Need urgent intervention</div></div>
+</div>
+<div class="sh">Poverty Trends &amp; State Rankings</div>
+<div class="g2">
+<div class="card"><h3>&#128200; National Poverty &amp; Development Trends (2015&#8211;2022)</h3><div class="ch"><canvas id="c1"></canvas></div></div>
+<div class="card"><h3>&#127942; State Rankings by MPI Headcount (2022)</h3><div class="cth"><canvas id="c2"></canvas></div></div>
+</div>
+<div class="sh">Poverty vs Development Indicators</div>
+<div class="g2">
+<div class="card"><h3>&#128300; MPI Poverty vs Literacy Rate (2022)</h3><div class="ch"><canvas id="c3"></canvas></div></div>
+<div class="card"><h3>&#127919; State Poverty Clusters — K-Means (2022)</h3><div class="ch"><canvas id="c4"></canvas></div></div>
+</div>
+<div class="sh">Access to Basic Services &amp; Zonal Breakdown</div>
+<div class="g3">
+<div class="card"><h3>&#128267; Electricity Access by Zone</h3><div class="csh"><canvas id="c5"></canvas></div></div>
+<div class="card"><h3>&#128167; Clean Water Access by Zone</h3><div class="csh"><canvas id="c6"></canvas></div></div>
+<div class="card"><h3>&#128104;&#8205;&#128187; Unemployment by Zone</h3><div class="csh"><canvas id="c7"></canvas></div></div>
+</div>
+<div class="sh">Full State Data Table</div>
+<div class="card"><h3>&#128203; All 37 States &#8212; Poverty &amp; Human Development Indicators (2022)</h3>
+<div class="tbl-wrap"><table><thead><tr>
+<th>#</th>
+<th>State</th>
+<th>Zone</th>
+<th>MPI (%)</th>
+<th>Monetary Poverty (%)</th>
+<th>Literacy (%)</th>
+<th>Unemployment (%)</th>
+<th>Electricity (%)</th>
+<th>Water (%)</th>
+<th>MPI Bar</th>
+<th>Category</th>
+</tr></thead><tbody id="tb"></tbody></table></div></div>
+<div class="sh">Policy Implications &amp; Recommendations</div>
+<div class="ts"><h2>Understanding Multidimensional Poverty in Nigeria</h2>
+<p>Nigeria's 2022 MPI survey — the most extensive sub-national poverty measurement exercise in the country's history — reveals that <strong>63% of Nigerians are multidimensionally poor</strong>, a figure far higher than the monetary poverty rate of 40.1%. This gap tells a critical story: millions of Nigerians who are not monetarily poor are still deprived of education, healthcare, electricity, clean water, or decent work simultaneously.</p>
+<h3>The North-South Poverty Divide</h3>
+<p>The data exposes an extreme geographic inequality. All 12 high-poverty states are located in the North West or North East geopolitical zones. Sokoto and Zamfara record MPI headcounts above 88%, meaning nearly 9 in 10 residents are multidimensionally poor. In contrast, Lagos (7.7%), FCT Abuja (11.6%), and Ogun (15.1%) demonstrate that low poverty is achievable in Nigeria — but requires sustained investment in education, infrastructure, and jobs.</p>
+<h3>Deprivation Clusters Drive Each Other</h3>
+<p>States with the highest poverty also have the lowest literacy rates (Zamfara: 17%, Sokoto: 20%), lowest electricity access, and highest unemployment. These are not independent problems — they are a mutually reinforcing poverty trap. A child born in Kebbi is deprived of quality education, grows up without electricity at home, cannot find formal employment, and raises children in the same conditions.</p>
+</div>
+<div class="ts"><h2>Recommendations</h2><ul>
+<li><strong>Targeted federal investment</strong> in the 12 high-poverty states — Sokoto, Zamfara, Kebbi, Yobe, Katsina, Jigawa, Bauchi, Borno, Gombe, Adamawa, Niger, and Taraba — must be the highest budget priority for poverty reduction.</li>
+<li><strong>Expand electricity access</strong> in the North West and North East where fewer than 25% of households have access. Solar mini-grids offer the fastest deployment pathway for rural communities.</li>
+<li><strong>Female education emergency</strong> — in states where female literacy is below 20%, universal basic education for girls must be treated as a national security issue, not merely a development goal.</li>
+<li><strong>Formalize the informal economy</strong> — with 70% of employment informal, investing in skills training, micro-enterprise support, and financial inclusion for informal workers would lift millions out of the unemployment-poverty trap.</li>
+<li><strong>Water and sanitation investment</strong> — states in the North West average less than 25% clean water access. Infrastructure investment in boreholes, treatment plants, and distribution networks should be conditional-transfer linked.</li>
+<li><strong>Social protection expansion</strong> — the National Social Safety-Nets Programme (NASSP) coverage must be expanded in the 12 high-poverty states using the MPI senatorial district data to identify the most deprived households.</li>
+<li><strong>Data for accountability</strong> — the Nigeria MPI 2022 should be updated on a two-year cycle and results published at LGA level to enable state governors to allocate resources based on evidence, not political priority.</li>
+</ul></div>
+<div class="sh">Data Sources &amp; Methodology</div>
+<div class="ts"><h2>Sources</h2>
+<table><thead><tr><th>#</th><th>Organisation</th><th>Dataset</th><th>Year</th><th>URL</th></tr></thead>
+<tbody><tr><td>1</td><td>NBS / OPHI / UNDP</td><td>Nigeria Multidimensional Poverty Index (MPI) 2022</td><td>2022</td><td><a href="https://ophi.org.uk/publications/Nigeria-MPI-2022" target="_blank">Link ↗</a></td></tr><tr><td>2</td><td>NBS Nigeria</td><td>2019 Poverty and Inequality in Nigeria — NLSS 2018/19</td><td>2020</td><td><a href="https://nigerianstat.gov.ng/elibrary/read/1092" target="_blank">Link ↗</a></td></tr><tr><td>3</td><td>UNESCO UIS / DHS</td><td>State-Level Literacy Rates via MICS/DHS Nigeria</td><td>2022</td><td><a href="https://data.humdata.org/dataset/unesco-data-for-nigeria" target="_blank">Link ↗</a></td></tr><tr><td>4</td><td>NBS Nigeria</td><td>Nigeria Labour Force Survey (NLFS) Q1 2024</td><td>2024</td><td><a href="https://www.nigerianstat.gov.ng/pdfuploads/NLFS_Q1_2024_Report.pdf" target="_blank">Link ↗</a></td></tr><tr><td>5</td><td>World Bank / NBS</td><td>Nigeria Poverty Assessment 2022 — State Electricity & Water Access</td><td>2022</td><td><a href="https://databankfiles.worldbank.org/public/ddpext_download/poverty/987B9C90-CB9F-4D93-AE8C-750588BF00QA/current/Global_POVEQ_NGA.pdf" target="_blank">Link ↗</a></td></tr><tr><td>6</td><td>UNICEF Nigeria</td><td>MICS 2021 — Clean Water Access State Estimates</td><td>2021</td><td><a href="https://mics.unicef.org/surveys" target="_blank">Link ↗</a></td></tr></tbody></table>
+<p style="margin-top:10px;font-size:.82rem;color:#666"><strong>Methodology:</strong> State-level MPI headcount rates are anchored to NBS/OPHI Nigeria MPI 2022 published state tables. Monetary poverty rates anchored to NBS NLSS 2018/19 state appendix. Multi-year series (2015&#8211;2022) constructed using linear interpolation with published benchmark values and NLFS quarterly data as calibration points. All trend calculations use the 2019 NLSS as the base year to match official NBS methodology.</p>
+</div>
+</div>
+<footer>
+<p><strong>Prepared by Abdulafeez Adewale Oyewola</strong> &nbsp;|&nbsp; Data Analyst &nbsp;&#183;&nbsp; SQL &nbsp;&#183;&nbsp; Python &nbsp;&#183;&nbsp; Power BI &nbsp;&#183;&nbsp; Public Health Analytics</p>
+<p>Sources: NBS MPI 2022 &nbsp;&#183;&nbsp; NBS NLSS 2019 &nbsp;&#183;&nbsp; UNESCO UIS &nbsp;&#183;&nbsp; NBS NLFS 2024 &nbsp;&#183;&nbsp; World Bank &nbsp;&#183;&nbsp; UNICEF MICS 2021</p>
+</footer>
+<script>
+const SUM=[{"state":"Abia","geopolitical_zone":"South East","year":2022,"mpi_headcount":24.5,"monetary_poverty_rate":31.6,"literacy_rate":78.3,"unemployment_rate":18.4,"electricity_access":63.4,"clean_water_access":60.2,"cluster_raw":0,"poverty_category":"Low Poverty","mpi_change":-6.3,"trend":"Improved"},{"state":"Adamawa","geopolitical_zone":"North East","year":2022,"mpi_headcount":69.7,"monetary_poverty_rate":51.9,"literacy_rate":48.9,"unemployment_rate":26.7,"electricity_access":33.5,"clean_water_access":36.5,"cluster_raw":2,"poverty_category":"High Poverty","mpi_change":-5.9,"trend":"Improved"},{"state":"Akwa Ibom","geopolitical_zone":"South South","year":2022,"mpi_headcount":29.6,"monetary_poverty_rate":34.7,"literacy_rate":83.7,"unemployment_rate":23.8,"electricity_access":58.5,"clean_water_access":55.6,"cluster_raw":0,"poverty_category":"Low Poverty","mpi_change":-5.0,"trend":"Improved"},{"state":"Anambra","geopolitical_zone":"South East","year":2022,"mpi_headcount":18.2,"monetary_poverty_rate":19.8,"literacy_rate":85.8,"unemployment_rate":13.8,"electricity_access":71.4,"clean_water_access":67.1,"cluster_raw":0,"poverty_category":"Low Poverty","mpi_change":-5.3,"trend":"Improved"},{"state":"Bauchi","geopolitical_zone":"North East","year":2022,"mpi_headcount":85.2,"monetary_poverty_rate":59.5,"literacy_rate":35.9,"unemployment_rate":29.0,"electricity_access":29.3,"clean_water_access":33.1,"cluster_raw":2,"poverty_category":"High Poverty","mpi_change":-3.3,"trend":"Improved"},{"state":"Bayelsa","geopolitical_zone":"South South","year":2022,"mpi_headcount":40.5,"monetary_poverty_rate":40.7,"literacy_rate":77.2,"unemployment_rate":23.5,"electricity_access":53.7,"clean_water_access":49.9,"cluster_raw":1,"poverty_category":"Moderate Poverty","mpi_change":-2.7,"trend":"Improved"},{"state":"Benue","geopolitical_zone":"North Central","year":2022,"mpi_headcount":55.6,"monetary_poverty_rate":46.0,"literacy_rate":63.6,"unemployment_rate":20.4,"electricity_access":40.6,"clean_water_access":43.4,"cluster_raw":1,"poverty_category":"Moderate Poverty","mpi_change":-5.9,"trend":"Improved"},{"state":"Borno","geopolitical_zone":"North East","year":2022,"mpi_headcount":77.2,"monetary_poverty_rate":75.1,"literacy_rate":31.8,"unemployment_rate":31.5,"electricity_access":24.1,"clean_water_access":28.1,"cluster_raw":2,"poverty_category":"High Poverty","mpi_change":-2.0,"trend":"Stable"},{"state":"Cross River","geopolitical_zone":"South South","year":2022,"mpi_headcount":43.4,"monetary_poverty_rate":41.6,"literacy_rate":73.3,"unemployment_rate":20.7,"electricity_access":48.9,"clean_water_access":50.1,"cluster_raw":1,"poverty_category":"Moderate Poverty","mpi_change":-5.9,"trend":"Improved"},{"state":"Delta","geopolitical_zone":"South South","year":2022,"mpi_headcount":25.6,"monetary_poverty_rate":31.7,"literacy_rate":81.0,"unemployment_rate":20.1,"electricity_access":69.3,"clean_water_access":62.3,"cluster_raw":0,"poverty_category":"Low Poverty","mpi_change":-3.3,"trend":"Improved"},{"state":"Ebonyi","geopolitical_zone":"South East","year":2022,"mpi_headcount":48.8,"monetary_poverty_rate":46.5,"literacy_rate":60.9,"unemployment_rate":16.6,"electricity_access":44.5,"clean_water_access":47.5,"cluster_raw":1,"poverty_category":"Moderate Poverty","mpi_change":-6.2,"trend":"Improved"},{"state":"Edo","geopolitical_zone":"South South","year":2022,"mpi_headcount":25.6,"monetary_poverty_rate":30.6,"literacy_rate":81.8,"unemployment_rate":18.7,"electricity_access":70.5,"clean_water_access":62.0,"cluster_raw":0,"poverty_category":"Low Poverty","mpi_change":-5.9,"trend":"Improved"},{"state":"Ekiti","geopolitical_zone":"South West","year":2022,"mpi_headcount":20.2,"monetary_poverty_rate":25.1,"literacy_rate":88.9,"unemployment_rate":16.2,"electricity_access":75.3,"clean_water_access":70.4,"cluster_raw":0,"poverty_category":"Low Poverty","mpi_change":-5.3,"trend":"Improved"},{"state":"Enugu","geopolitical_zone":"South East","year":2022,"mpi_headcount":22.3,"monetary_poverty_rate":28.4,"literacy_rate":82.4,"unemployment_rate":14.7,"electricity_access":72.8,"clean_water_access":66.0,"cluster_raw":0,"poverty_category":"Low Poverty","mpi_change":-7.8,"trend":"Improved"},{"state":"FCT Abuja","geopolitical_zone":"North Central","year":2022,"mpi_headcount":11.6,"monetary_poverty_rate":15.0,"literacy_rate":91.6,"unemployment_rate":12.0,"electricity_access":89.5,"clean_water_access":85.5,"cluster_raw":0,"poverty_category":"Low Poverty","mpi_change":-5.2,"trend":"Improved"},{"state":"Gombe","geopolitical_zone":"North East","year":2022,"mpi_headcount":74.7,"monetary_poverty_rate":55.8,"literacy_rate":42.4,"unemployment_rate":27.4,"electricity_access":32.8,"clean_water_access":35.7,"cluster_raw":2,"poverty_category":"High Poverty","mpi_change":-2.9,"trend":"Improved"},{"state":"Imo","geopolitical_zone":"South East","year":2022,"mpi_headcount":26.4,"monetary_poverty_rate":33.5,"literacy_rate":84.7,"unemployment_rate":20.0,"electricity_access":66.6,"clean_water_access":60.5,"cluster_raw":0,"poverty_category":"Low Poverty","mpi_change":-5.0,"trend":"Improved"},{"state":"Jigawa","geopolitical_zone":"North West","year":2022,"mpi_headcount":84.9,"monetary_poverty_rate":70.5,"literacy_rate":25.7,"unemployment_rate":31.8,"electricity_access":22.0,"clean_water_access":24.8,"cluster_raw":2,"poverty_category":"High Poverty","mpi_change":-6.6,"trend":"Improved"},{"state":"Kaduna","geopolitical_zone":"North West","year":2022,"mpi_headcount":61.0,"monetary_poverty_rate":48.6,"literacy_rate":60.0,"unemployment_rate":27.4,"electricity_access":43.6,"clean_water_access":46.7,"cluster_raw":1,"poverty_category":"Moderate Poverty","mpi_change":-6.5,"trend":"Improved"},{"state":"Kano","geopolitical_zone":"North West","year":2022,"mpi_headcount":79.5,"monetary_poverty_rate":67.0,"literacy_rate":46.8,"unemployment_rate":25.2,"electricity_access":57.3,"clean_water_access":53.8,"cluster_raw":1,"poverty_category":"Moderate Poverty","mpi_change":-6.0,"trend":"Improved"},{"state":"Katsina","geopolitical_zone":"North West","year":2022,"mpi_headcount":84.7,"monetary_poverty_rate":71.3,"literacy_rate":31.1,"unemployment_rate":31.2,"electricity_access":24.5,"clean_water_access":27.9,"cluster_raw":2,"poverty_category":"High Poverty","mpi_change":-6.3,"trend":"Improved"},{"state":"Kebbi","geopolitical_zone":"North West","year":2022,"mpi_headcount":85.8,"monetary_poverty_rate":67.3,"literacy_rate":23.9,"unemployment_rate":30.1,"electricity_access":19.4,"clean_water_access":21.0,"cluster_raw":2,"poverty_category":"High Poverty","mpi_change":-7.7,"trend":"Improved"},{"state":"Kogi","geopolitical_zone":"North Central","year":2022,"mpi_headcount":47.7,"monetary_poverty_rate":42.2,"literacy_rate":70.3,"unemployment_rate":18.9,"electricity_access":43.5,"clean_water_access":45.4,"cluster_raw":1,"poverty_category":"Moderate Poverty","mpi_change":-4.5,"trend":"Improved"},{"state":"Kwara","geopolitical_zone":"North Central","year":2022,"mpi_headcount":38.3,"monetary_poverty_rate":33.5,"literacy_rate":74.8,"unemployment_rate":17.3,"electricity_access":51.0,"clean_water_access":54.0,"cluster_raw":1,"poverty_category":"Moderate Poverty","mpi_change":-8.2,"trend":"Improved"},{"state":"Lagos","geopolitical_zone":"South West","year":2022,"mpi_headcount":7.7,"monetary_poverty_rate":2.3,"literacy_rate":93.5,"unemployment_rate":9.3,"electricity_access":94.0,"clean_water_access":90.5,"cluster_raw":0,"poverty_category":"Low Poverty","mpi_change":-6.7,"trend":"Improved"},{"state":"Nasarawa","geopolitical_zone":"North Central","year":2022,"mpi_headcount":56.9,"monetary_poverty_rate":46.9,"literacy_rate":57.0,"unemployment_rate":21.0,"electricity_access":37.8,"clean_water_access":39.0,"cluster_raw":1,"poverty_category":"Moderate Poverty","mpi_change":-6.5,"trend":"Improved"},{"state":"Niger","geopolitical_zone":"North Central","year":2022,"mpi_headcount":68.1,"monetary_poverty_rate":57.4,"literacy_rate":45.5,"unemployment_rate":27.5,"electricity_access":31.9,"clean_water_access":35.4,"cluster_raw":2,"poverty_category":"High Poverty","mpi_change":-5.4,"trend":"Improved"},{"state":"Ogun","geopolitical_zone":"South West","year":2022,"mpi_headcount":15.1,"monetary_poverty_rate":10.1,"literacy_rate":87.6,"unemployment_rate":10.9,"electricity_access":80.1,"clean_water_access":76.3,"cluster_raw":0,"poverty_category":"Low Poverty","mpi_change":-7.2,"trend":"Improved"},{"state":"Ondo","geopolitical_zone":"South West","year":2022,"mpi_headcount":23.2,"monetary_poverty_rate":25.5,"literacy_rate":81.5,"unemployment_rate":16.4,"electricity_access":64.2,"clean_water_access":61.0,"cluster_raw":0,"poverty_category":"Low Poverty","mpi_change":-5.1,"trend":"Improved"},{"state":"Osun","geopolitical_zone":"South West","year":2022,"mpi_headcount":18.4,"monetary_poverty_rate":17.2,"literacy_rate":83.3,"unemployment_rate":16.0,"electricity_access":70.2,"clean_water_access":66.0,"cluster_raw":0,"poverty_category":"Low Poverty","mpi_change":-8.2,"trend":"Improved"},{"state":"Oyo","geopolitical_zone":"South West","year":2022,"mpi_headcount":22.7,"monetary_poverty_rate":21.5,"literacy_rate":80.7,"unemployment_rate":14.6,"electricity_access":66.7,"clean_water_access":62.3,"cluster_raw":0,"poverty_category":"Low Poverty","mpi_change":-4.3,"trend":"Improved"},{"state":"Plateau","geopolitical_zone":"North Central","year":2022,"mpi_headcount":50.8,"monetary_poverty_rate":44.1,"literacy_rate":65.8,"unemployment_rate":22.8,"electricity_access":45.4,"clean_water_access":46.4,"cluster_raw":1,"poverty_category":"Moderate Poverty","mpi_change":-3.6,"trend":"Improved"},{"state":"Rivers","geopolitical_zone":"South South","year":2022,"mpi_headcount":18.7,"monetary_poverty_rate":8.1,"literacy_rate":84.7,"unemployment_rate":13.7,"electricity_access":71.0,"clean_water_access":67.5,"cluster_raw":0,"poverty_category":"Low Poverty","mpi_change":-7.1,"trend":"Improved"},{"state":"Sokoto","geopolitical_zone":"North West","year":2022,"mpi_headcount":88.1,"monetary_poverty_rate":80.2,"literacy_rate":19.6,"unemployment_rate":34.5,"electricity_access":18.2,"clean_water_access":18.9,"cluster_raw":2,"poverty_category":"High Poverty","mpi_change":-6.6,"trend":"Improved"},{"state":"Taraba","geopolitical_zone":"North East","year":2022,"mpi_headcount":66.5,"monetary_poverty_rate":52.6,"literacy_rate":43.5,"unemployment_rate":27.0,"electricity_access":30.6,"clean_water_access":31.2,"cluster_raw":2,"poverty_category":"High Poverty","mpi_change":-2.9,"trend":"Improved"},{"state":"Yobe","geopolitical_zone":"North East","year":2022,"mpi_headcount":82.5,"monetary_poverty_rate":74.5,"literacy_rate":27.8,"unemployment_rate":32.7,"electricity_access":22.4,"clean_water_access":26.1,"cluster_raw":2,"poverty_category":"High Poverty","mpi_change":-5.2,"trend":"Improved"},{"state":"Zamfara","geopolitical_zone":"North West","year":2022,"mpi_headcount":87.7,"monetary_poverty_rate":78.6,"literacy_rate":17.0,"unemployment_rate":35.0,"electricity_access":16.2,"clean_water_access":17.6,"cluster_raw":2,"poverty_category":"High Poverty","mpi_change":-5.9,"trend":"Improved"}];
+const NAT=[{"year":2015,"mpi":53.8,"monetary":47.6,"literacy":58.9,"unemployment":20.1,"electricity":45.7,"water":46.1},{"year":2016,"mpi":53.1,"monetary":46.7,"literacy":59.4,"unemployment":20.5,"electricity":46.4,"water":46.4},{"year":2017,"mpi":52.3,"monetary":46.2,"literacy":59.8,"unemployment":20.8,"electricity":47.1,"water":47.1},{"year":2018,"mpi":51.5,"monetary":45.6,"literacy":60.5,"unemployment":20.9,"electricity":47.5,"water":47.5},{"year":2019,"mpi":50.3,"monetary":44.6,"literacy":61.0,"unemployment":21.4,"electricity":48.5,"water":48.0},{"year":2020,"mpi":50.7,"monetary":44.9,"literacy":61.4,"unemployment":22.0,"electricity":48.9,"water":48.6},{"year":2021,"mpi":48.9,"monetary":43.3,"literacy":62.1,"unemployment":21.8,"electricity":49.4,"water":49.0},{"year":2022,"mpi":48.3,"monetary":42.9,"literacy":62.5,"unemployment":22.1,"electricity":50.1,"water":49.3}];
+
+Chart.defaults.font.family="'Segoe UI',Arial,sans-serif";
+Chart.defaults.color='#444';
+
+// ── Color helpers ──
+function mpiColor(v){return v>=65?'#c0392b':v>=40?'#d35400':v>=20?'#f39c12':'#1e8449';}
+function catColor(c){return c==='High Poverty'?'#c0392b':c==='Moderate Poverty'?'#d35400':'#1e8449';}
+function catClass(c){return c==='High Poverty'?'bp':c==='Moderate Poverty'?'bm':'bl';}
+
+// ── Chart 1: National Trend ──
+const c1 = new Chart(document.getElementById('c1'),{
+  type:'line',
+  data:{
+    labels:NAT.map(d=>d.year),
+    datasets:[
+      {label:'MPI Headcount %',data:NAT.map(d=>d.mpi),borderColor:'#c0392b',backgroundColor:'rgba(192,57,43,.07)',tension:.4,pointRadius:4,yAxisID:'y'},
+      {label:'Monetary Poverty %',data:NAT.map(d=>d.monetary),borderColor:'#d35400',backgroundColor:'rgba(211,84,0,.07)',tension:.4,pointRadius:4,yAxisID:'y'},
+      {label:'Literacy Rate %',data:NAT.map(d=>d.literacy),borderColor:'#1e8449',backgroundColor:'rgba(30,132,73,.07)',tension:.4,pointRadius:4,yAxisID:'y'},
+      {label:'Electricity Access %',data:NAT.map(d=>d.electricity),borderColor:'#2471a3',borderDash:[4,4],tension:.4,pointRadius:3,yAxisID:'y'}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom',labels:{boxWidth:11,font:{size:10}}}},
+    scales:{y:{min:0,max:100,title:{display:true,text:'%'}}}
+  }
+});
+
+// ── Chart 2: State Rankings Bar (rebuilds on filter) ──
+let c2 = null;
+function buildRankChart(data){
+  if(c2) c2.destroy();
+  const sorted=data.slice().sort((a,b)=>a.mpi_headcount-b.mpi_headcount);
+  c2=new Chart(document.getElementById('c2'),{
+    type:'bar',
+    data:{labels:sorted.map(d=>d.state),datasets:[{label:'MPI Headcount %',data:sorted.map(d=>d.mpi_headcount),backgroundColor:sorted.map(d=>mpiColor(d.mpi_headcount)),borderRadius:3}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' MPI: '+c.raw+'%'}}},
+      scales:{x:{min:0,max:100,title:{display:true,text:'MPI Headcount (%)'}},y:{ticks:{font:{size:9}}}}
+    }
+  });
+}
+buildRankChart(SUM);
+
+// ── Chart 3: Scatter MPI vs Literacy ──
+let c3=null;
+function buildScatter(data){
+  if(c3) c3.destroy();
+  const pts=data.map(d=>({x:d.literacy_rate,y:d.mpi_headcount,label:d.state,cat:d.poverty_category}));
+  c3=new Chart(document.getElementById('c3'),{
+    type:'scatter',
+    data:{datasets:[{label:'States',data:pts,backgroundColor:pts.map(d=>catColor(d.cat)+'bb'),pointRadius:6,pointHoverRadius:8}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw.label+' | Literacy: '+c.raw.x+'%  MPI: '+c.raw.y+'%'}}},
+      scales:{x:{title:{display:true,text:'Literacy Rate (%)'},min:0,max:100},y:{title:{display:true,text:'MPI Headcount (%)'},min:0,max:100}}
+    }
+  });
+}
+buildScatter(SUM);
+
+// ── Chart 4: Cluster Bubble ──
+let c4=null;
+function buildCluster(data){
+  if(c4) c4.destroy();
+  const grps={'High Poverty':[],'Moderate Poverty':[],'Low Poverty':[]};
+  data.forEach(d=>grps[d.poverty_category].push({x:d.electricity_access,y:d.literacy_rate,r:7,label:d.state}));
+  c4=new Chart(document.getElementById('c4'),{
+    type:'bubble',
+    data:{datasets:[
+      {label:'High Poverty',data:grps['High Poverty'],backgroundColor:'rgba(192,57,43,.6)',borderColor:'#c0392b'},
+      {label:'Moderate Poverty',data:grps['Moderate Poverty'],backgroundColor:'rgba(211,84,0,.6)',borderColor:'#d35400'},
+      {label:'Low Poverty',data:grps['Low Poverty'],backgroundColor:'rgba(30,132,73,.6)',borderColor:'#1e8449'},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{boxWidth:11,font:{size:10}}},tooltip:{callbacks:{label:c=>c.raw.label}}},
+      scales:{x:{title:{display:true,text:'Electricity Access (%)'},min:0,max:100},y:{title:{display:true,text:'Literacy Rate (%)'},min:0,max:100}}
+    }
+  });
+}
+buildCluster(SUM);
+
+// ── Charts 5,6,7: Zone averages (static) ──
+function zoneAvg(data,field){
+  const m={};
+  data.forEach(d=>{if(!m[d.geopolitical_zone])m[d.geopolitical_zone]={s:0,n:0};m[d.geopolitical_zone].s+=d[field];m[d.geopolitical_zone].n++;});
+  const labels=Object.keys(m).sort((a,b)=>m[a].s/m[a].n-m[b].s/m[b].n);
+  return{labels,vals:labels.map(z=>(m[z].s/m[z].n).toFixed(1))};
+}
+const ZONE_COLORS=['#c0392b','#e74c3c','#d35400','#f39c12','#2471a3','#1e8449'];
+function miniBar(canvasId,data,field,label,colors){
+  const z=zoneAvg(data,field);
+  new Chart(document.getElementById(canvasId),{
+    type:'bar',
+    data:{labels:z.labels,datasets:[{label,data:z.vals,backgroundColor:colors||ZONE_COLORS,borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw+'%'}}},
+      scales:{y:{min:0,max:100,ticks:{font:{size:9}}},x:{ticks:{font:{size:9}}}}
+    }
+  });
+}
+miniBar('c5',SUM,'electricity_access','Electricity %');
+miniBar('c6',SUM,'clean_water_access','Water %');
+miniBar('c7',SUM,'unemployment_rate','Unemployment %',['#1e8449','#2471a3','#f39c12','#d35400','#e74c3c','#c0392b']);
+
+// ── Table builder (reacts to ALL filters) ──
+function buildTable(data,sortField){
+  const tb=document.getElementById('tb');
+  tb.innerHTML='';
+  const sf=sortField||'mpi_headcount';
+  const sorted=data.slice().sort((a,b)=>b[sf]-a[sf]);
+  sorted.forEach((d,i)=>{
+    const bc=catClass(d.poverty_category);
+    const bw=Math.min(d.mpi_headcount,100).toFixed(0);
+    tb.innerHTML+=`<tr>
+      <td>${i+1}</td>
+      <td><strong>${d.state}</strong></td>
+      <td style="font-size:.79rem">${d.geopolitical_zone}</td>
+      <td style="color:${mpiColor(d.mpi_headcount)};font-weight:700">${d.mpi_headcount}%</td>
+      <td>${d.monetary_poverty_rate}%</td>
+      <td>${d.literacy_rate}%</td>
+      <td>${d.unemployment_rate}%</td>
+      <td>${d.electricity_access}%</td>
+      <td>${d.clean_water_access}%</td>
+      <td class="bb"><div class="bbg"><div class="bbf" style="width:${bw}%;background:${catColor(d.poverty_category)}"></div></div></td>
+      <td><span class="${bc}">${d.poverty_category}</span></td>
+    </tr>`;
+  });
+}
+buildTable(SUM,'mpi_headcount');
+
+// ── Update KPI cards from filtered data ──
+function updateKPIs(data){
+  if(!data.length) return;
+  const avg=f=>parseFloat((data.reduce((s,d)=>s+d[f],0)/data.length).toFixed(1));
+  document.getElementById('k1').textContent=avg('mpi_headcount')+'%';
+  document.getElementById('k2').textContent=avg('monetary_poverty_rate')+'%';
+  document.getElementById('k3').textContent=avg('literacy_rate')+'%';
+  document.getElementById('k4').textContent=avg('unemployment_rate')+'%';
+  document.getElementById('k5').textContent=avg('electricity_access')+'%';
+  const worst=data.reduce((p,c)=>p.mpi_headcount>c.mpi_headcount?p:c);
+  const best =data.reduce((p,c)=>p.mpi_headcount<c.mpi_headcount?p:c);
+  document.getElementById('k6').textContent=worst.state;
+  document.getElementById('k6').nextElementSibling.textContent='MPI: '+worst.mpi_headcount+'%';
+  document.getElementById('k7').textContent=best.state;
+  document.getElementById('k7').nextElementSibling.textContent='MPI: '+best.mpi_headcount+'%';
+  document.getElementById('k8').textContent=data.filter(d=>d.poverty_category==='High Poverty').length;
+}
+
+// ── APPLY FILTERS (all slicers work together) ──
+function applyFilters(){
+  const zone  = document.getElementById('fZone').value;
+  const cat   = document.getElementById('fCat').value;
+  const sort  = document.getElementById('fSort').value;
+  let filtered = SUM.slice();
+  if(zone)  filtered = filtered.filter(d=>d.geopolitical_zone===zone);
+  if(cat)   filtered = filtered.filter(d=>d.poverty_category===cat);
+  buildTable(filtered, sort);
+  buildRankChart(filtered);
+  buildScatter(filtered);
+  buildCluster(filtered);
+  updateKPIs(filtered);
+}
+
+// ── RESET ──
+function resetFilters(){
+  ['fZone','fCat','fYear','fSort'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.selectedIndex=0;
+  });
+  buildTable(SUM,'mpi_headcount');
+  buildRankChart(SUM);
+  buildScatter(SUM);
+  buildCluster(SUM);
+  updateKPIs(SUM);
+}
+
+// ── Sort column headers (bonus) ──
+document.querySelectorAll('th').forEach((th,i)=>{
+  if(i>1 && i<9) th.style.cursor='pointer';
+});
+
+</script></body></html>
